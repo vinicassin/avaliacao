@@ -1,4 +1,4 @@
-package com.tm.services.transfer
+package com.tm.transfer
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
