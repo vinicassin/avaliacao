@@ -9,3 +9,6 @@ spring:
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
     spring.jpa.defer-datasource-initialization: true
+
+  jackson:
+    default-property-inclusion: non_null
