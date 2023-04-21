@@ -1,8 +1,8 @@
 package com.tm.transfer.domain.repositories
 
-import com.tm.transfer.domain.TransferData
+import com.tm.transfer.resources.repositories.TransferDataEntity
 
 interface TransferRepository {
-    fun save(transferData: TransferData) : TransferData
-    fun findByShippingAccount(shippingAccount: String) : List<TransferData>?
+    fun save(transferDataEntity: TransferDataEntity) : TransferDataEntity
+    fun findAllByShippingAccount(shippingAccount: String) : List<TransferDataEntity>
 }

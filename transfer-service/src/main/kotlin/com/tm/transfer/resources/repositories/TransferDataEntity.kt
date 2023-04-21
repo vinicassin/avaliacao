@@ -1,5 +1,6 @@
 package com.tm.transfer.resources.repositories
 
+import com.tm.transfer.domain.TransferData
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
@@ -20,3 +21,16 @@ class TransferDataEntity (
     var transferDate: LocalDate? = null,
     var createdAt: LocalDateTime? = null,
 )
+
+fun TransferDataEntity.toDomain(): TransferData =
+    TransferData(
+        transferId = this.transferId,
+        shippingAccount = this.shippingAccount!!,
+        destinationAccount = this.destinationAccount!!,
+        transactionValue = this.transactionValue!!,
+        taxType = this.taxType!!,
+        valueWithTax = this.valueWithTax!!,
+        scheduleDate = this.scheduleDate!!,
+        transferDate = this.transferDate!!,
+        createdAt = this.createdAt!!,
+    )
