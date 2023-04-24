@@ -1,16 +1,22 @@
 package com.tm.transfer.application.web.controllers
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.tm.transfer.application.web.entities.requests.TransferRequest
 import com.tm.transfer.builders.buildTransferDataEntity
 import com.tm.transfer.domain.repositories.TransferRepository
+import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.time.LocalDate
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -22,6 +28,9 @@ class TransferControllerTest {
 
     @Autowired
     private lateinit var transferDataRepository: TransferRepository
+
+    @Autowired
+    private lateinit var objectMapper: ObjectMapper
 
     @Test
     fun `Should return list of transfer when call GET by shippingAccount`() {
@@ -37,6 +46,21 @@ class TransferControllerTest {
 
     @Test
     fun `Should create transfer succesfully`() {
+        val request = TransferRequest(
+            shippingAccount = 123456,
+            destinationAccount = 54321,
+            value = 1000.0,
+            taxType = "A",
+            scheduleDate = LocalDate.now()
+        )
 
+        mockMvc.perform(post("/transfer")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isCreated)
+
+        val result = transferDataRepository.findAllByShippingAccount("123456")
+
+        assertEquals(result[0].valueWithTax, 1033.0)
     }
 }
