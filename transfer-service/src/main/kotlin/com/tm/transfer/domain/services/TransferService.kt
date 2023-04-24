@@ -63,7 +63,8 @@ fun calculateDaysDifBetweenDates(startDate: LocalDate, finishDate: LocalDate): L
     return ChronoUnit.DAYS.between(startDate, finishDate)
 }
 
+
 // Is this service responsible for viewing the balance? If not create a gateway fold in resources.
 fun getBalance(shippingAccount: Long): Double {
-    return 1000.0
+    return 1500.0
 }
